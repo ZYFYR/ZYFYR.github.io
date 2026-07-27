@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZZYYFF | 个人主页</title>
-    <!-- 引入 FontAwesome 图标库库 -->
+    <title>ZYFYR | 个人主页</title>
+    <!-- FontAwesome 图标库库 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -19,7 +19,6 @@
             --shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
         }
 
-        /* 亮色主题配置 */
         [data-theme="light"] {
             --bg-gradient: linear-gradient(135deg, #e0f2fe 0%, #f3e8ff 50%, #fce7f3 100%);
             --card-bg: rgba(255, 255, 255, 0.65);
@@ -59,7 +58,6 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* 核心卡片容器 - 玻璃拟态 */
         .container {
             background: var(--card-bg);
             backdrop-filter: blur(16px);
@@ -73,7 +71,6 @@
             position: relative;
         }
 
-        /* 主题切换按钮 */
         .theme-toggle {
             position: absolute;
             top: 24px;
@@ -96,7 +93,6 @@
             transform: scale(1.1);
         }
 
-        /* 头部区域 */
         .header {
             display: flex;
             align-items: center;
@@ -128,7 +124,6 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* 动态打字效果 */
         .typing-text {
             font-size: 1.1rem;
             color: var(--text-sub);
@@ -143,7 +138,6 @@
 
         @keyframes blink { 50% { opacity: 0; } }
 
-        /* 导航 Tab 按钮 */
         .nav-tabs {
             display: flex;
             gap: 12px;
@@ -169,7 +163,6 @@
             background: var(--btn-bg);
         }
 
-        /* 内容板块 */
         .tab-content {
             display: none;
             animation: fadeIn 0.4s ease;
@@ -190,66 +183,6 @@
             font-size: 1rem;
         }
 
-        /* 技能进度条 */
-        .skill-item {
-            margin-bottom: 16px;
-        }
-
-        .skill-info {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 6px;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: var(--card-border);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .progress {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
-            border-radius: 4px;
-            width: 0;
-            transition: width 1s ease-in-out;
-        }
-
-        /* 项目卡片 */
-        .project-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 16px;
-        }
-
-        .project-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            padding: 16px;
-            border-radius: 16px;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .project-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary-color);
-        }
-
-        .project-card h3 {
-            font-size: 1.1rem;
-            margin-bottom: 8px;
-        }
-
-        .project-card p {
-            font-size: 0.85rem;
-            color: var(--text-sub);
-        }
-
-        /* 社交图标链接 */
         .social-links {
             display: flex;
             gap: 16px;
@@ -276,231 +209,161 @@
             color: #fff;
         }
 
-        /* 手表及极端小屏专用的交互气泡 */
-        .watch-contact {
-            display: none;
-        }
+        .skill-item { margin-bottom: 16px; }
+        .skill-info { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.9rem; font-weight: 600; }
+        .progress-bar { width: 100%; height: 8px; background: var(--card-border); border-radius: 4px; overflow: hidden; }
+        .progress { height: 100%; background: linear-gradient(90deg, var(--primary-color), var(--accent-color)); border-radius: 4px; }
 
-        /* ==================== 响应式适配 (Media Queries) ==================== */
+        .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+        .project-card { background: var(--card-bg); border: 1px solid var(--card-border); padding: 16px; border-radius: 16px; transition: transform 0.2s; }
+        .project-card:hover { transform: translateY(-5px); border-color: var(--primary-color); }
+        .project-card h3 { font-size: 1.1rem; margin-bottom: 8px; }
+        .project-card p { font-size: 0.85rem; color: var(--text-sub); }
 
-        /* 1. 平板 (Tablet: <= 768px) */
+        .watch-contact { display: none; }
+
+        /* 响应式媒体查询 */
         @media (max-width: 768px) {
-            .container {
-                padding: 30px 24px;
-            }
-            .header {
-                gap: 20px;
-            }
-            .avatar {
-                width: 100px;
-                height: 100px;
-            }
-            .user-info h1 {
-                font-size: 1.8rem;
-            }
+            .container { padding: 30px 24px; }
+            .header { gap: 20px; }
+            .avatar { width: 100px; height: 100px; }
+            .user-info h1 { font-size: 1.8rem; }
         }
 
-        /* 2. 手机 (Mobile: <= 480px) */
         @media (max-width: 480px) {
-            .header {
-                flex-direction: column;
-                text-align: center;
-            }
-            .nav-tabs {
-                justify-content: center;
-            }
-            .social-links {
-                justify-content: center;
-            }
-            .user-info h1 {
-                font-size: 1.6rem;
-            }
+            .header { flex-direction: column; text-align: center; }
+            .nav-tabs, .social-links { justify-content: center; }
+            .user-info h1 { font-size: 1.6rem; }
         }
 
-        /* 3. 智能手表极小屏 (Watch: <= 240px) */
+        /* 智能手表适配 (<= 240px) */
         @media (max-width: 240px) {
-            body {
-                padding: 0;
-                background: #000; /* 黑底省电且对比度高 */
-            }
-            .container {
-                border-radius: 0;
-                border: none;
-                padding: 12px 8px;
-                background: #000;
-                text-align: center;
-            }
-            .theme-toggle, .nav-tabs, .tab-content, .social-links {
-                display: none !important; /* 精简非关键UI */
-            }
-            .header {
-                flex-direction: column;
-                gap: 8px;
-                margin-bottom: 12px;
-            }
-            .avatar {
-                width: 55px;
-                height: 55px;
-                border-width: 2px;
-            }
-            .user-info h1 {
-                font-size: 1rem;
-                background: none;
-                -webkit-text-fill-color: initial;
-                color: #fff;
-            }
-            .typing-text {
-                font-size: 0.75rem;
-                height: auto;
-                color: #38bdf8;
-            }
-            /* 手表专属按钮 */
-            .watch-contact {
-                display: block;
-                margin-top: 10px;
-            }
-            .watch-btn {
-                display: block;
-                background: #38bdf8;
-                color: #000;
-                font-weight: bold;
-                font-size: 0.75rem;
-                padding: 6px 0;
-                border-radius: 20px;
-                text-decoration: none;
-            }
+            body { padding: 0; background: #000; }
+            .container { border-radius: 0; border: none; padding: 12px 8px; background: #000; text-align: center; }
+            .theme-toggle, .nav-tabs, .tab-content, .social-links { display: none !important; }
+            .header { flex-direction: column; gap: 8px; margin-bottom: 12px; }
+            .avatar { width: 55px; height: 55px; border-width: 2px; }
+            .user-info h1 { font-size: 1rem; background: none; -webkit-text-fill-color: initial; color: #fff; }
+            .typing-text { font-size: 0.75rem; height: auto; color: #38bdf8; }
+            .watch-contact { display: block; margin-top: 10px; }
+            .watch-btn { display: block; background: #38bdf8; color: #000; font-weight: bold; font-size: 0.75rem; padding: 6px 0; border-radius: 20px; text-decoration: none; }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- 主题切换按钮 -->
+        <!-- 暗黑/亮色 切换按钮 -->
         <button class="theme-toggle" id="themeToggle" title="切换主题">
             <i class="fa-solid fa-moon"></i>
         </button>
 
-        <!-- 个人头部信息 -->
+        <!-- 头部区域：已替换为动态获取你的 GitHub 头像 -->
         <div class="header">
             <div class="avatar-wrapper">
-                <img src="https://via.placeholder.com/150" alt="Avatar" class="avatar">
+                <img src="https://github.com/ZYFYR.png" alt="ZYFYR" class="avatar">
             </div>
             <div class="user-info">
-                <h1>ZZYYFF</h1>
+                <h1>ZYFYR</h1>
                 <div class="typing-text" id="typing"></div>
             </div>
         </div>
 
-        <!-- 导航 Tab 选项卡 -->
+        <!-- 选项卡导航 -->
         <div class="nav-tabs">
             <button class="tab-btn active" onclick="switchTab('about')">关于</button>
             <button class="tab-btn" onclick="switchTab('skills')">技能</button>
             <button class="tab-btn" onclick="switchTab('projects')">项目</button>
         </div>
 
-        <!-- Tab 1: 关于我 -->
+        <!-- 关于我 -->
         <div id="about" class="tab-content active">
             <p class="bio-text">
-                你好！欢迎来到我的个人主页。我热衷于探索前沿技术、创造优雅的用户体验以及开发高可用性的应用程序。<br>
-                热爱开源，喜欢在代码的世界里将灵感变为现实。
+                这是关于我的介绍。欢迎来到我的个人主页！<br>
+                热爱技术与设计，喜欢在代码的世界里探索与创造。
             </p>
+            <!-- 已经帮你配置好你的真实 GitHub、B站、邮箱链接 -->
             <div class="social-links">
-                <a href="#" class="social-btn" title="GitHub"><i class="fa-brands fa-github"></i></a>
-                <a href="#" class="social-btn" title="Bilibili"><i class="fa-brands fa-bilibili"></i></a>
-                <a href="#" class="social-btn" title="Email"><i class="fa-solid fa-envelope"></i></a>
+                <a href="https://github.com/ZYFYR" target="_blank" class="social-btn" title="GitHub">
+                    <i class="fa-brands fa-github"></i>
+                </a>
+                <a href="https://space.bilibili.com/646547860" target="_blank" class="social-btn" title="Bilibili">
+                    <i class="fa-brands fa-bilibili"></i>
+                </a>
+                <a href="mailto:ggzzyyff@gmail.com" class="social-btn" title="发送邮件">
+                    <i class="fa-solid fa-envelope"></i>
+                </a>
             </div>
         </div>
 
-        <!-- Tab 2: 技能列表 -->
+        <!-- 技能页面 -->
         <div id="skills" class="tab-content">
             <div class="skill-item">
-                <div class="skill-info"><span>HTML5 / CSS3 / JavaScript</span><span>90%</span></div>
+                <div class="skill-info"><span>HTML5 / CSS3 / JS</span><span>85%</span></div>
+                <div class="progress-bar"><div class="progress" style="width: 85%;"></div></div>
+            </div>
+            <div class="skill-item">
+                <div class="skill-info"><span>Git / GitHub Pages</span><span>90%</span></div>
                 <div class="progress-bar"><div class="progress" style="width: 90%;"></div></div>
-            </div>
-            <div class="skill-item">
-                <div class="skill-info"><span>Vue.js / React</span><span>80%</span></div>
-                <div class="progress-bar"><div class="progress" style="width: 80%;"></div></div>
-            </div>
-            <div class="skill-item">
-                <div class="skill-info"><span>Python / Node.js</span><span>75%</span></div>
-                <div class="progress-bar"><div class="progress" style="width: 75%;"></div></div>
             </div>
         </div>
 
-        <!-- Tab 3: 项目作品 -->
+        <!-- 项目展示 -->
         <div id="projects" class="tab-content">
             <div class="project-grid">
                 <div class="project-card">
-                    <h3>🚀 个人主页</h3>
-                    <p>基于 HTML/CSS/JS 开发的自适应响应式个人展示页。</p>
-                </div>
-                <div class="project-card">
-                    <h3>💡 极简小工具</h3>
-                    <p>提升效率的微前端 Web 实用小工具集合。</p>
+                    <h3>🚀 ZYFYR.github.io</h3>
+                    <p>全端适配的响应式个人主页项目。</p>
                 </div>
             </div>
         </div>
 
-        <!-- 手表端专属一键交互按钮 -->
+        <!-- 手表端一键点击邮件按钮 -->
         <div class="watch-contact">
-            <a href="mailto:your-email@example.com" class="watch-btn">打个招呼 👋</a>
+            <a href="mailto:ggzzyyff@gmail.com" class="watch-btn">发邮件 👋</a>
         </div>
     </div>
 
     <script>
-        // 1. 打字机特效
-        const words = ["ZYFYR.github.io", "全栈开发者", "UI/UX 设计爱好者", "热爱开源与创造"];
-        let wordIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
+        // 打字机特效
+        const words = ["ZYFYR.github.io", "这是关于我的介绍", "欢迎来到我的空间", "GitHub & B站UP主"];
+        let wordIndex = 0, charIndex = 0, isDeleting = false;
         const typingElement = document.getElementById("typing");
 
         function typeEffect() {
             const currentWord = words[wordIndex];
-            if (isDeleting) {
-                typingElement.textContent = currentWord.substring(0, charIndex - 1);
-                charIndex--;
-            } else {
-                typingElement.textContent = currentWord.substring(0, charIndex + 1);
-                charIndex++;
-            }
-
-            let typeSpeed = isDeleting ? 50 : 100;
+            typingElement.textContent = isDeleting 
+                ? currentWord.substring(0, charIndex - 1) 
+                : currentWord.substring(0, charIndex + 1);
+            
+            charIndex += isDeleting ? -1 : 1;
+            let typeSpeed = isDeleting ? 40 : 80;
 
             if (!isDeleting && charIndex === currentWord.length) {
-                typeSpeed = 2000; // 打完一个词停顿
+                typeSpeed = 2000;
                 isDeleting = true;
             } else if (isDeleting && charIndex === 0) {
                 isDeleting = false;
                 wordIndex = (wordIndex + 1) % words.length;
-                typeSpeed = 500;
+                typeSpeed = 400;
             }
-
             setTimeout(typeEffect, typeSpeed);
         }
-
         document.addEventListener("DOMContentLoaded", typeEffect);
 
-        // 2. Tab 切换逻辑
+        // Tab 切换
         function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
             event.currentTarget.classList.add('active');
         }
 
-        // 3. 暗黑/亮色 主题切换
+        // 昼夜模式切换
         const themeToggle = document.getElementById('themeToggle');
         const icon = themeToggle.querySelector('i');
-
         themeToggle.addEventListener('click', () => {
-            const currentTheme = document.body.getAttribute('data-theme');
-            if (currentTheme === 'light') {
+            if (document.body.getAttribute('data-theme') === 'light') {
                 document.body.removeAttribute('data-theme');
                 icon.className = 'fa-solid fa-moon';
             } else {
