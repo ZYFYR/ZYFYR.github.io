@@ -3,234 +3,511 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>个人主页 | 自我介绍</title>
+    <title>ZZYYFF | 个人主页</title>
+    <!-- 引入 FontAwesome 图标库库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* 全局基础重置 */
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
+            --card-bg: rgba(255, 255, 255, 0.07);
+            --card-border: rgba(255, 255, 255, 0.12);
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+            --primary-color: #38bdf8;
+            --accent-color: #c084fc;
+            --btn-bg: rgba(56, 189, 248, 0.15);
+            --shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        /* 亮色主题配置 */
+        [data-theme="light"] {
+            --bg-gradient: linear-gradient(135deg, #e0f2fe 0%, #f3e8ff 50%, #fce7f3 100%);
+            --card-bg: rgba(255, 255, 255, 0.65);
+            --card-border: rgba(255, 255, 255, 0.8);
+            --text-main: #0f172a;
+            --text-sub: #475569;
+            --primary-color: #0284c7;
+            --accent-color: #9333ea;
+            --btn-bg: rgba(2, 132, 199, 0.1);
+            --shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            transition: background 0.3s, color 0.3s, border-color 0.3s;
         }
 
         body {
-            background-color: #f4f6f9;
-            color: #333;
+            background: var(--bg-gradient);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
             padding: 20px;
+            overflow-x: hidden;
         }
 
-        /* 核心卡片容器 */
-        .profile-card {
-            background: #ffffff;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 核心卡片容器 - 玻璃拟态 */
+        .container {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
             width: 100%;
-            max-width: 900px;
+            max-width: 850px;
             padding: 40px;
-            display: flex;
-            gap: 40px;
-            align-items: center;
-            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+            position: relative;
         }
 
-        /* 头像样式 */
-        .avatar-box {
+        /* 主题切换按钮 */
+        .theme-toggle {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            transition: transform 0.2s;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        /* 头部区域 */
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .avatar-wrapper {
+            position: relative;
             flex-shrink: 0;
-            text-align: center;
         }
 
         .avatar {
-            width: 160px;
-            height: 160px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
             object-fit: cover;
-            border: 4px solid #4A90E2;
-            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+            border: 3px solid var(--primary-color);
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
         }
 
-        /* 文本内容区 */
-        .info-box {
-            flex-grow: 1;
+        .user-info h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 6px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .name {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #1a1a1a;
-            margin-bottom: 8px;
-        }
-
-        .tagline {
+        /* 动态打字效果 */
+        .typing-text {
             font-size: 1.1rem;
-            color: #4A90E2;
+            color: var(--text-sub);
             font-weight: 500;
+            height: 24px;
+        }
+
+        .typing-text::after {
+            content: '|';
+            animation: blink 0.8s infinite;
+        }
+
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* 导航 Tab 按钮 */
+        .nav-tabs {
+            display: flex;
+            gap: 12px;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 12px;
+            margin-bottom: 24px;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            color: var(--text-sub);
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active, .tab-btn:hover {
+            color: var(--primary-color);
+            background: var(--btn-bg);
+        }
+
+        /* 内容板块 */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .bio-text {
+            line-height: 1.7;
+            color: var(--text-sub);
+            font-size: 1rem;
+        }
+
+        /* 技能进度条 */
+        .skill-item {
             margin-bottom: 16px;
         }
 
-        .bio {
-            font-size: 0.95rem;
-            line-height: 1.6;
-            color: #666;
-            margin-bottom: 24px;
-        }
-
-        /* 标签列表 */
-        .tags {
+        .skill-info {
             display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 24px;
-        }
-
-        .tag {
-            background: #eef5ff;
-            color: #4A90E2;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-
-        /* 联系方式按钮 */
-        .contact-btn {
-            display: inline-block;
-            background: #4A90E2;
-            color: white;
-            padding: 10px 24px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-size: 0.95rem;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
             font-weight: 600;
-            transition: background 0.2s;
         }
 
-        .contact-btn:hover {
-            background: #357ABD;
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--card-border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 4px;
+            width: 0;
+            transition: width 1s ease-in-out;
+        }
+
+        /* 项目卡片 */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 16px;
+            border-radius: 16px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+        }
+
+        .project-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .project-card p {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+        }
+
+        /* 社交图标链接 */
+        .social-links {
+            display: flex;
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .social-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--btn-bg);
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: all 0.2s;
+        }
+
+        .social-btn:hover {
+            transform: scale(1.15) rotate(5deg);
+            background: var(--primary-color);
+            color: #fff;
+        }
+
+        /* 手表及极端小屏专用的交互气泡 */
+        .watch-contact {
+            display: none;
         }
 
         /* ==================== 响应式适配 (Media Queries) ==================== */
 
-        /* 1. 平板电脑适配 (Tablet: 宽度 <= 768px) */
+        /* 1. 平板 (Tablet: <= 768px) */
         @media (max-width: 768px) {
-            .profile-card {
-                flex-direction: column;
-                text-align: center;
-                padding: 30px;
-                max-width: 500px;
+            .container {
+                padding: 30px 24px;
             }
-
-            .avatar {
-                width: 130px;
-                height: 130px;
+            .header {
+                gap: 20px;
             }
-
-            .tags {
-                justify-content: center;
-            }
-        }
-
-        /* 2. 手机适配 (Mobile: 宽度 <= 480px) */
-        @media (max-width: 480px) {
-            body {
-                padding: 12px;
-            }
-
-            .profile-card {
-                padding: 20px 16px;
-                border-radius: 16px;
-            }
-
             .avatar {
                 width: 100px;
                 height: 100px;
             }
-
-            .name {
-                font-size: 1.5rem;
-            }
-
-            .tagline {
-                font-size: 0.95rem;
-            }
-
-            .bio {
-                font-size: 0.85rem;
+            .user-info h1 {
+                font-size: 1.8rem;
             }
         }
 
-        /* 3. 智能手表适配 (Watch: 宽度 <= 240px) */
+        /* 2. 手机 (Mobile: <= 480px) */
+        @media (max-width: 480px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+            .nav-tabs {
+                justify-content: center;
+            }
+            .social-links {
+                justify-content: center;
+            }
+            .user-info h1 {
+                font-size: 1.6rem;
+            }
+        }
+
+        /* 3. 智能手表极小屏 (Watch: <= 240px) */
         @media (max-width: 240px) {
             body {
                 padding: 0;
-                background-color: #000; /* 手表上通常用纯黑背景省电 */
+                background: #000; /* 黑底省电且对比度高 */
             }
-
-            .profile-card {
-                background: #000;
-                color: #fff;
-                box-shadow: none;
-                padding: 8px;
+            .container {
                 border-radius: 0;
-                gap: 8px;
+                border: none;
+                padding: 12px 8px;
+                background: #000;
+                text-align: center;
             }
-
+            .theme-toggle, .nav-tabs, .tab-content, .social-links {
+                display: none !important; /* 精简非关键UI */
+            }
+            .header {
+                flex-direction: column;
+                gap: 8px;
+                margin-bottom: 12px;
+            }
             .avatar {
-                width: 50px;
-                height: 50px;
+                width: 55px;
+                height: 55px;
                 border-width: 2px;
             }
-
-            .name {
+            .user-info h1 {
                 font-size: 1rem;
+                background: none;
+                -webkit-text-fill-color: initial;
                 color: #fff;
-                margin-bottom: 2px;
             }
-
-            /* 手表屏幕极小，精简掉非核心元素 */
-            .tagline, .bio, .tags {
-                display: none;
+            .typing-text {
+                font-size: 0.75rem;
+                height: auto;
+                color: #38bdf8;
             }
-
-            .contact-btn {
-                padding: 6px 10px;
-                font-size: 0.7rem;
-                border-radius: 12px;
+            /* 手表专属按钮 */
+            .watch-contact {
+                display: block;
+                margin-top: 10px;
+            }
+            .watch-btn {
+                display: block;
+                background: #38bdf8;
+                color: #000;
+                font-weight: bold;
+                font-size: 0.75rem;
+                padding: 6px 0;
+                border-radius: 20px;
+                text-decoration: none;
             }
         }
     </style>
 </head>
 <body>
 
-    <div class="profile-card">
-        <!-- 头像区域 -->
-        <div class="avatar-box">
-            <img src="https://via.placeholder.com/160" alt="个人头像" class="avatar">
+    <div class="container">
+        <!-- 主题切换按钮 -->
+        <button class="theme-toggle" id="themeToggle" title="切换主题">
+            <i class="fa-solid fa-moon"></i>
+        </button>
+
+        <!-- 个人头部信息 -->
+        <div class="header">
+            <div class="avatar-wrapper">
+                <img src="https://via.placeholder.com/150" alt="Avatar" class="avatar">
+            </div>
+            <div class="user-info">
+                <h1>ZZYYFF</h1>
+                <div class="typing-text" id="typing"></div>
+            </div>
         </div>
 
-        <!-- 个人信息区域 -->
-        <div class="info-box">
-            <h1 class="name">你的名字</h1>
-            <div class="tagline">全栈开发者 / 设计爱好者</div>
-            
-            <p class="bio">
-                你好！我是一名热衷于创造优秀数字体验的开发者。喜欢将想法转化为优雅的代码与产品，探索新技术与设计美学的边界。
+        <!-- 导航 Tab 选项卡 -->
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('about')">关于</button>
+            <button class="tab-btn" onclick="switchTab('skills')">技能</button>
+            <button class="tab-btn" onclick="switchTab('projects')">项目</button>
+        </div>
+
+        <!-- Tab 1: 关于我 -->
+        <div id="about" class="tab-content active">
+            <p class="bio-text">
+                你好！欢迎来到我的个人主页。我热衷于探索前沿技术、创造优雅的用户体验以及开发高可用性的应用程序。<br>
+                热爱开源，喜欢在代码的世界里将灵感变为现实。
             </p>
-
-            <!-- 个人标签 -->
-            <div class="tags">
-                <span class="tag">💡 创意设计</span>
-                <span class="tag">💻 Web开发</span>
-                <span class="tag">🚀 持续学习</span>
+            <div class="social-links">
+                <a href="#" class="social-btn" title="GitHub"><i class="fa-brands fa-github"></i></a>
+                <a href="#" class="social-btn" title="Bilibili"><i class="fa-brands fa-bilibili"></i></a>
+                <a href="#" class="social-btn" title="Email"><i class="fa-solid fa-envelope"></i></a>
             </div>
+        </div>
 
-            <!-- 联系按钮 -->
-            <a href="mailto:yourname@example.com" class="contact-btn">联系我</a>
+        <!-- Tab 2: 技能列表 -->
+        <div id="skills" class="tab-content">
+            <div class="skill-item">
+                <div class="skill-info"><span>HTML5 / CSS3 / JavaScript</span><span>90%</span></div>
+                <div class="progress-bar"><div class="progress" style="width: 90%;"></div></div>
+            </div>
+            <div class="skill-item">
+                <div class="skill-info"><span>Vue.js / React</span><span>80%</span></div>
+                <div class="progress-bar"><div class="progress" style="width: 80%;"></div></div>
+            </div>
+            <div class="skill-item">
+                <div class="skill-info"><span>Python / Node.js</span><span>75%</span></div>
+                <div class="progress-bar"><div class="progress" style="width: 75%;"></div></div>
+            </div>
+        </div>
+
+        <!-- Tab 3: 项目作品 -->
+        <div id="projects" class="tab-content">
+            <div class="project-grid">
+                <div class="project-card">
+                    <h3>🚀 个人主页</h3>
+                    <p>基于 HTML/CSS/JS 开发的自适应响应式个人展示页。</p>
+                </div>
+                <div class="project-card">
+                    <h3>💡 极简小工具</h3>
+                    <p>提升效率的微前端 Web 实用小工具集合。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 手表端专属一键交互按钮 -->
+        <div class="watch-contact">
+            <a href="mailto:your-email@example.com" class="watch-btn">打个招呼 👋</a>
         </div>
     </div>
 
+    <script>
+        // 1. 打字机特效
+        const words = ["ZYFYR.github.io", "全栈开发者", "UI/UX 设计爱好者", "热爱开源与创造"];
+        let wordIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typingElement = document.getElementById("typing");
+
+        function typeEffect() {
+            const currentWord = words[wordIndex];
+            if (isDeleting) {
+                typingElement.textContent = currentWord.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingElement.textContent = currentWord.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let typeSpeed = isDeleting ? 50 : 100;
+
+            if (!isDeleting && charIndex === currentWord.length) {
+                typeSpeed = 2000; // 打完一个词停顿
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                wordIndex = (wordIndex + 1) % words.length;
+                typeSpeed = 500;
+            }
+
+            setTimeout(typeEffect, typeSpeed);
+        }
+
+        document.addEventListener("DOMContentLoaded", typeEffect);
+
+        // 2. Tab 切换逻辑
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        // 3. 暗黑/亮色 主题切换
+        const themeToggle = document.getElementById('themeToggle');
+        const icon = themeToggle.querySelector('i');
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.body.getAttribute('data-theme');
+            if (currentTheme === 'light') {
+                document.body.removeAttribute('data-theme');
+                icon.className = 'fa-solid fa-moon';
+            } else {
+                document.body.setAttribute('data-theme', 'light');
+                icon.className = 'fa-solid fa-sun';
+            }
+        });
+    </script>
 </body>
 </html>
